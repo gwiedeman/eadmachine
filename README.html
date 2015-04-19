@@ -1,0 +1,449 @@
+<html>
+<head>
+<title>EADMachine Documentation</title>
+<style>
+* {padding: 10px;}
+li {padding: 0px;}
+img {max-width: 500px;
+		max-height: 300px;}
+body {
+   font-family: Helvetica, arial, sans-serif;
+   font-size: 14px;
+   line-height: 1.6;
+   padding-top: 10px;
+   padding-bottom: 10px;
+   background-color: white;
+   padding: 30px; }
+
+body > *:first-child {
+   margin-top: 0 !important; }
+body > *:last-child {
+   margin-bottom: 0 !important; }
+
+a {
+   color: #4183C4; }
+a.absent {
+   color: #cc0000; }
+a.anchor {
+   display: block;
+   padding-left: 30px;
+   margin-left: -30px;
+   cursor: pointer;
+   position: absolute;
+   top: 0;
+   left: 0;
+   bottom: 0; }
+
+h1, h2, h3, h4, h5, h6 {
+   margin: 20px 0 10px;
+   padding: 0;
+   font-weight: bold;
+   -webkit-font-smoothing: antialiased;
+   cursor: text;
+   position: relative; }
+
+h1:hover a.anchor, h2:hover a.anchor, h3:hover a.anchor, h4:hover a.anchor, h5:hover a.anchor, h6:hover a.anchor {
+   text-decoration: none; }
+
+h1 tt, h1 code {
+   font-size: inherit; }
+
+h2 tt, h2 code {
+   font-size: inherit; }
+
+h3 tt, h3 code {
+   font-size: inherit; }
+
+h4 tt, h4 code {
+   font-size: inherit; }
+
+h5 tt, h5 code {
+   font-size: inherit; }
+
+h6 tt, h6 code {
+   font-size: inherit; }
+
+h1 {
+   font-size: 28px;
+   color: black; }
+
+h2 {
+   font-size: 24px;
+   border-bottom: 1px solid #cccccc;
+   color: black; }
+
+h3 {
+   font-size: 18px; }
+
+h4 {
+   font-size: 16px; }
+
+h5 {
+   font-size: 14px; }
+
+h6 {
+   color: #777777;
+   font-size: 14px; }
+
+p, blockquote, ul, ol, dl, li, table, pre {
+   margin: 15px 0; }
+
+hr {
+   border: 0 none;
+   color: #cccccc;
+   height: 4px;
+   padding: 0;
+}
+
+body > h2:first-child {
+   margin-top: 0;
+   padding-top: 0; }
+body > h1:first-child {
+   margin-top: 0;
+   padding-top: 0; }
+body > h1:first-child + h2 {
+   margin-top: 0;
+   padding-top: 0; }
+body > h3:first-child, body > h4:first-child, body > h5:first-child, body > h6:first-child {
+   margin-top: 0;
+   padding-top: 0; }
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+   margin-top: 0;
+   padding-top: 0; }
+
+h1 p, h2 p, h3 p, h4 p, h5 p, h6 p {
+   margin-top: 0; }
+
+li p.first {
+   display: inline-block; }
+li {
+   margin: 0; }
+ul, ol {
+   padding-left: 30px; }
+
+ul :first-child, ol :first-child {
+   margin-top: 0; }
+
+dl {
+   padding: 0; }
+dl dt {
+   font-size: 14px;
+   font-weight: bold;
+   font-style: italic;
+   padding: 0;
+   margin: 15px 0 5px; }
+dl dt:first-child {
+   padding: 0; }
+dl dt > :first-child {
+   margin-top: 0; }
+dl dt > :last-child {
+   margin-bottom: 0; }
+dl dd {
+   margin: 0 0 15px;
+   padding: 0 15px; }
+dl dd > :first-child {
+   margin-top: 0; }
+dl dd > :last-child {
+   margin-bottom: 0; }
+
+blockquote {
+   border-left: 4px solid #dddddd;
+   padding: 0 15px;
+   color: #777777; }
+blockquote > :first-child {
+   margin-top: 0; }
+blockquote > :last-child {
+   margin-bottom: 0; }
+
+table {
+   padding: 0;border-collapse: collapse; }
+table tr {
+   border-top: 1px solid #cccccc;
+   background-color: white;
+   margin: 0;
+   padding: 0; }
+table tr:nth-child(2n) {
+   background-color: #f8f8f8; }
+table tr th {
+   font-weight: bold;
+   border: 1px solid #cccccc;
+   margin: 0;
+   padding: 6px 13px; }
+table tr td {
+   border: 1px solid #cccccc;
+   margin: 0;
+   padding: 6px 13px; }
+table tr th :first-child, table tr td :first-child {
+   margin-top: 0; }
+table tr th :last-child, table tr td :last-child {
+   margin-bottom: 0; }
+
+img {
+   max-width: 100%; }
+
+span.frame {
+   display: block;
+   overflow: hidden; }
+span.frame > span {
+   border: 1px solid #dddddd;
+   display: block;
+   float: left;
+   overflow: hidden;
+   margin: 13px 0 0;
+   padding: 7px;
+   width: auto; }
+span.frame span img {
+   display: block;
+   float: left; }
+span.frame span span {
+   clear: both;
+   color: #333333;
+   display: block;
+   padding: 5px 0 0; }
+span.align-center {
+   display: block;
+   overflow: hidden;
+   clear: both; }
+span.align-center > span {
+   display: block;
+   overflow: hidden;
+   margin: 13px auto 0;
+   text-align: center; }
+span.align-center span img {
+   margin: 0 auto;
+   text-align: center; }
+span.align-right {
+   display: block;
+   overflow: hidden;
+   clear: both; }
+span.align-right > span {
+   display: block;
+   overflow: hidden;
+   margin: 13px 0 0;
+   text-align: right; }
+span.align-right span img {
+   margin: 0;
+   text-align: right; }
+span.float-left {
+   display: block;
+   margin-right: 13px;
+   overflow: hidden;
+   float: left; }
+span.float-left span {
+   margin: 13px 0 0; }
+span.float-right {
+   display: block;
+   margin-left: 13px;
+   overflow: hidden;
+   float: right; }
+span.float-right > span {
+   display: block;
+   overflow: hidden;
+   margin: 13px auto 0;
+   text-align: right; }
+
+code, tt {
+   margin: 0 2px;
+   padding: 0 5px;
+   white-space: nowrap;
+   border: 1px solid #eaeaea;
+   background-color: #f8f8f8;
+   border-radius: 3px; }
+
+pre code {
+   margin: 0;
+   padding: 0;
+   white-space: pre;
+   border: none;
+   background: transparent; }
+
+.highlight pre {
+   background-color: #f8f8f8;
+   border: 1px solid #cccccc;
+   font-size: 13px;
+   line-height: 19px;
+   overflow: auto;
+   padding: 6px 10px;
+   border-radius: 3px; }
+
+pre {
+   background-color: #f8f8f8;
+   border: 1px solid #cccccc;
+   font-size: 13px;
+   line-height: 19px;
+   overflow: auto;
+   padding: 6px 10px;
+   border-radius: 3px; }
+pre code, pre tt {
+   background-color: transparent;
+   border: none; }
+
+sup {
+   font-size: 0.83em;
+   vertical-align: super;
+   line-height: 0;
+}
+* {
+	 -webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+   body {
+      width: 854px;
+      margin:0 auto;
+   }
+}
+@media print {
+	 table, pre {
+		  page-break-inside: avoid;
+	 }
+	 pre {
+		  word-wrap: break-word;
+	 }
+}
+</style>
+</head>
+<body>
+<h1 id="eadmachine">EADMachine</h1>
+<p>EADMachine is an easy EAD creation and editing tool. It uses a speadsheet template to enter data and automatically converts between spreadsheet and valid EAD, matching either a default template or a local EAD file. EADMachine also automatically creates a flat HTML finding aid for basic online access.</p>
+<p><a href="#features">Features</a><br/>
+<a href="#setup">Setting up EADMachine</a><br/>
+<a href="#dataentry">Entering Data into the Spreadsheet Template</a><br/>
+<a href="#creating">Creating EAD and HTML files from the spreadsheet template</a><br/>
+<a href="#editing">Editing an completed EAD file with EADMachine</a><br/></p>
+<h2 id="wzxhzdk5wzxhzdk6features"><a id="features"></a>Features</h2>
+<ul>
+<li>Data-Entry using spreadsheet template</li>
+<li>Comments from the EAD tag library and formatting promote robust and consistent metadata</li>
+<li>Macro reads italicized and bold text and automatically inserts <code>&lt;emph&gt;</code> tags</li>
+<li>Formula automates customizable unique identifiers at every level</li>
+<li>Make use of familiar features like spellcheck, find and replace, etc. </li>
+<li>100% native XML behind the scenes
+</li>
+<li>Uses an EAD Template to match local tag and attribute usage</li>
+<li>Use a default template or your own local EAD file</li>
+<li>Make small customizations by adding or changing elements or attributes within the EAD template
+</li>
+<li>Uses automated and customizable unique ID system
+</li>
+<li>Encode unique IDs at every level</li>
+<li>Not container-dependent
+</li>
+<li>Supports both EAD2002 and EAD3
+</li>
+<li>Includes new <code>&lt;control&gt;</code> elements, including refined revision and maintenance elements</li>
+<li>Includes experimental <code>&lt;relations&gt;</code> element</li>
+<li>
+Adds all complex elements at any level
+</li>
+<li>
+Automatically produces a flat HTML finding aid
+</li>
+<li>
+Produces text files that are easily inspected and edited
+</li>
+<li>Complied to C to be run on any Windows Machine as .exe application
+</li>
+<li>Runs entirely on Windows desktop, no server required</li>
+<li>Free and open-source GNU-GPL license </li>
+</ul>
+<h2 id="wzxhzdk7wzxhzdk8setting-up-eadmachine"><a id="setup"></a>Setting up EADMachine</h2>
+<p>Select "Download ZIP" on the right side of the EADMachine page in Github.<br />
+</p>
+<p><img alt="Download Zip" src="docs/download_zip.png" /></p>
+<p>Unzip the file to anywhere on your computer. You should have these items:
+<ul>
+<li>docs</li>
+<li>source</li>
+<li>templates</li>
+<li>EADMachine.exe</li>
+<li>EADMachine.xlsm</li>
+<li>error_log.txt</li>
+<li>LICENCE.txt</li>
+<li>README.html</li>
+<li>README.md</li>
+</ul>
+<p>EADMachine.xlsm is the spreadsheet template where you should enter data that describes your collection. Make sure to make a use copy of your spreadsheet and keep the original for additional collections. See the instructions below for entering data into the spreadsheet template.</p>
+<p>When you are finished filling the spreadsheet, save the collection as an .xml file. Excel will warn you that you will lose formatting information when doing this, but click "continue" as seen below:</p>
+<p><img alt="save as xml" src="docs/save_as_xml.png" title="save as xml.png" />
+<img alt="format warning" src="docs/format_warning.png" title="warning.png" /></p>
+<p>Next, open up EADMachine.exe and follow the instructions for converting the XML file you just saved to EAD and HTML files. See Creating an EAD and HTML files from the spreadsheet template for more details.</p>
+<h2 id="wzxhzdk9wzxhzdk10entering-data-into-the-spreadsheet-template"><a id="dataentry"></a>Entering Data into the Spreadsheet Template</h2>
+<h3 id="collection-level-description">Collection-level Description</h3>
+<p>Open up EADMachine.xlsm in Microsoft Excel 2007 or later (you may be able to use an older version of Excel with an add-on, but that method has not been tested). You should see a screen like this:</p>
+<p><img alt="main screen" src="docs/main_screen.png" title="screen.png" /></p>
+<p>Enter description for your collection using the labels provided. Hover over the red tabs in the cell corners for more details on individual cells. Much of this information comes directly from the EAD tag library.</p>
+<p>You may also enter XML mixed content in fields. An example of this would be: <code>&lt;title&gt;Title of a Book&lt;/title&gt;</code> is a good book.</p>
+<p>Formatting will not be retained, so you must manually enter tags like  <code>&lt;emph render="italic"&gt;Text&lt;/emph&gt;</code> to italicize text, etc.</p>
+<p>The green tables are fields that are only used in EAD3. If you plan to use EAD2002, feel free to ignore these fields.</p>
+<p>The fields that contain red dots require one of a few specified terms. Hover over the red tab to see what these terms are. If you do not enter a correct term, your finding aid will not be valid.</p>
+<p>The different sheets at the bottom (circled in red above) lead to other sheets with more fields. Be sure to look at all fields to see what is applicable, but do not feel the need to fill in everything. Many detailed finding aids look very empty in the spreadsheet.</p>
+<p>Feel free to insert new row and resize and move any tables. There is no set location for each table, even move them between sheets to customize the template as you like. The only requirement is that all fields must be present or you will get an error when saving as .xml – no removing tables.</p>
+<h3 id="container-lists">Container Lists</h3>
+<p>EADMachine supports complex file or even item level container lists. When you are ready to enter your container list, navigate to the "Containers" sheet:</p>
+<img alt="containerlist-containerids" src="docs/containerlist-containerids.png" />
+<p>In the Map of Collection Hierarchy table list each component (usually series and subseries). In the example above, series are bolded and subseries are not.</p>
+<p>The Level is mandatory, it is the level within the hierarchy. For example, series are usually 1, subseries usually 2, etc. </p>
+<p>The number is an ID for each component, it is suggested and not mandatory. If the unique ID system is used, it will be combined with the collection separator (in the top-center table) and the collection ID to make a unique identifier. This will be encoded as a <code>&lt;unitid&gt;</code> element or an <code>@id</code> attribute of the component element, depending on the EAD template you use.</p>
+<p>Once you have completed filling in the Map of Collection Hierarchy table, click the "Create Container List" button on the upper right (circled in red). This will unhide the necessary sheets for each component. See Component Level Description to fill in data at the lower levels.</p>
+<h3 id="container-ids">Container IDs</h3>
+<p>The List of Containers table allows you to encode container IDs, such as barcodes. </p>
+<p>List each container type (such as "Box") and container number along with the parent component ID (such as the series or subseries ID).</p>
+<p>EADMachine will find all the matching containers in your container list and enter the ID as an @id attribute. The use of the parent ID allows the repeating of container numbers (such as a Box 1 for multiple series).</p>
+<h3 id="entering-component-level-description">Entering Component-level Description</h3>
+<p><img alt="component level description" src="docs/component_level_description.png" title="level description.png" /></p>
+<p>To enter component-level description, such as a file inventory for a series, you must have first entered you Map of Collection Hierarchy and clicked the "Create Container List" button.</p>
+<p>A new sheet should have appeared with the component name. Navigate to this sheet and fill whatever component-level description you would like on the top of the sheet. </p>
+<p>If the component you are describing, say, directly contains only subseries and no files or items, leave the large table on the bottom blank.</p>
+<p>If the component you are describing contains files or items, enter either "file" or "item" or another term to identify the level of the items you will enter into the large table at the bottom.</p>
+<p>The RecordID field is designed to be a unique identifier for each file or item. You may use the default formula designed to combine the Container and Unit numbers. If you use the formula, the ID visible will be combined with the Series # and the Collection ID to create a unique identifier.</p>
+<p>Both the Container Type and the Unit Type and the corresponding numbers will be entered into <code>&lt;container&gt;</code> tags, unless you use a different EAD template, then EADMachine will match the data as close as possible.
+Up to five dates may be used, normalized dates are also recommended to make this information more computer-readable. </p>
+<p>EADMachine will be able to encode <code>&lt;unitdatestructured&gt;</code> tags for EAD3 if you use a hyphen(-) for date ranges and a forward slash(/) for  normal date ranges.</p>
+<p>Any date format can be used, the Date1, etc. will be encoded as a <code>&lt;unitdate&gt;</code> and the Normal version will be encoded as an <code>@normal</code> attribute.</p>
+<p>EADMachine also supports <code>&lt;physdesc&gt;</code> and <code>&lt;physdescstructured&gt;</code> as well as digital objects at the lower-level. Use the comments for more information.</p>
+<p>Formatting will not be retained, so you must manually enter tags like <code>&lt;emph render="italic"&gt;&lt;/emph&gt;</code> to italicize text, etc.</p>
+<p>EADMachine can also auto enter <code>&lt;emph&gt;</code> tags at the component level and below. Just italicize or bold text as you typically would in Excel and when the component is complete, click the <code>Add &lt;emph&gt; tags</code> button on the top of the sheet.</p>
+<p>Adding the <code>&lt;emph&gt;</code> tags is very resource intensive, particularly for large blocks of text. For this reason, this feature is only available at the component level and below.</p>
+<h3 id="more-information">More Information</h3>
+<p>If you would like further instruction on entering metadata, consult the following standards and sources:</p>
+<ul>
+<li><a href="http://www2.archivists.org/groups/technical-subcommittee-on-describing-archives-a-content-standard-dacs/dacs">Describing Archives: A Content Standard</a></li>
+<li><a href="http://www.loc.gov/ead/tglib/">The Official EAD Tag Library</a></li>
+<li><a href="http://www.eadiva.com">EADiva</a></li>
+<li><a href="https://tutorials.ischool.utexas.edu/index.php/Introduction_to_EAD">University of Texas iSchool EAD Tutorial</a></li>
+</ul>
+<p>While these standards provide more detailed instructions on how to describe collections, creating metadata is rarely just following instructions. Use your best judgement while following guidelines as closely as possible.</p>
+<h2 id="wzxhzdk26wzxhzdk27creating-ead-and-html-files-from-the-spreadsheet-template"><a id="creating"></a>Creating EAD and HTML files from the spreadsheet template</h2>
+<p>When you have finished entering all you data for the entire collection, save the spreadsheet as an XML file and use the EADMachine.exe file to convert it to EAD.</p>
+<p>To do this select "File" from the top menu bar and click on "Save as"</p>
+<p><img alt="save as" src="docs/save_as.png" title="as.png" /></p>
+<p>When naming the file, be sure to select "XML Data" as the file type.</p>
+<p><img alt="save as xml" src="docs/save_as_xml.png" title="as xml.png" /></p>
+<p>Next, open EADMachine.exe and under the "Spreadsheet to EAD" tab, click "Browse" and select the XML file you just saved.</p>
+<p>For an EAD template, use one of the default templates in the "templates" folder or use your own complete EAD file.</p>
+<p><img alt="spreadsheet to ead" src="docs/spreadsheet_to_ead.png" title="to ead.png" /></p>
+<p>One you click "Next," EADMachine will ask you some basic yes or no questions (such as whether you want an HTML file for basic web access) and then create your EAD file. Save your file(s) wherever you wish.</p>
+<h2 id="wzxhzdk28wzxhzdk29editing-an-completed-ead-file-with-eadmachine"><a id="editing"></a>Editing an completed EAD file with EADMachine</h2>
+<p>Open EADMachine.exe and select the "EAD to Spreadsheet" tab.</p>
+<p>Browse and navigate to the EAD file you want to edit and click "Next."</p>
+<p>You will be prompted to save an XML file, which you will then import into the EADMachine spreadsheet.</p>
+<p>Open EADMachine.xlsm and click on the "Developer" tab on the top menubar.</p>
+<p>This tab is usually hidden by default, so if it is not visible, you need to enable it. Under the File tab, click "Options," and select "Customize Ribbon." Under "Main Tabs, check the "Developer" check box.</p>
+<p>More detail instructions are available here:
+<a href="https://msdn.microsoft.com/en-us/library/bb608625.aspx">https://msdn.microsoft.com/en-us/library/bb608625.aspx</a></p>
+<p>Once you open the Developer tab, click "Import" as shown below, and select the XML file you created with EADMachine.</p>
+<p><img alt="Import xml" src="docs/Import_xml.png" title="xml.png" /></p>
+<p>If you do not receive an error message, update the file as needed, save as an XML file, and convert it back to an EAD file. For more information see Entering Data into the Spreadsheet Template
+and Creating EAD and HTML files from the spreadsheet template.</p>
+<p>If you see one of the errors below, only part of the spreadsheet will be populated:</p>
+<p><img alt="error1" src="docs/error1.png" />
+<img alt="error2" src="docs/error2.png" /></p>
+<p>The reason for these errors is that the data from your finding aid does not fit the default tables in the EADMachine spreadsheet. </p>
+<p>The tables will expand as needed, unless they encroach upon another table. The tables within the spreadsheet have been placed fairly close to one another in order to fit as much information onto smaller monitors.</p>
+<p>If you receive one of these import errors you must insert more rows after the table that is expanding. Unfortunately, Excel does not show which table cannot expand.</p>
+<p>Examine your EAD file to see which fields may expand more typically than usual. The import will stop just before the offending table.</p>
+<p>Examples of this issue would be an <code>&lt;arrangement&gt;</code> element at the component level with more than four paragraphs, or a <bibliography> of more than 3 published materials.</p>
+<p>One you expand the table, import the XML file again to fully populate the spreadsheet.</p>
+</body>
+</html>
