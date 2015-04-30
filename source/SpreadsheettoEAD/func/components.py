@@ -195,14 +195,16 @@ def components(c_root, cmpnt_info, version, arr_head, sc_head, old_physdesc, old
 	else:
 		if int(c_root.tag[1:]) > 9:
 			file_tag = "c" + str(int(c_root.tag[1:]) + 1)
+			digi_tag = "c" + str(int(c_root.tag[1:]) + 2)
 		else:
 			file_tag = "c0" + str(int(c_root.tag[1:]) + 1)
+			digi_tag = "c0" + str(int(c_root.tag[1:]) + 2)
 	
 	container_element = ""
 	
 	for record in cmpnt_info:
 		if record.tag == "Record":
-			if record.find('UnitTitle').text or record.find('UnitNumber').text or record.find('Date1').text or record.find('Quantity').text:
+			if record.find('UnitTitle').text or record.find('UnitNumber').text or record.find('BoxNumber').text:
 				file_element = ET.Element(file_tag)
 				c_root.append(file_element)
 				if cmpnt_info.find('DescriptionLevel').text:
@@ -271,22 +273,41 @@ def components(c_root, cmpnt_info, version, arr_head, sc_head, old_physdesc, old
 						if "id" in old_cmpt.attrib:
 							if input_data.find('CollectionSheet/IDModel/CollectionSeparator').text and input_data.find('CollectionSheet/IDModel/SeriesSeparator').text:
 								if record.find('RecordID').text.startswith(collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text + cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text):
-									did_element.set('id', record.find('RecordID').text)
+									file_element.set('id', record.find('RecordID').text)
 								else:
-									did_element.set('id', collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text + cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text + record.find('RecordID').text)
+									file_element.set('id', collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text + cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text + record.find('RecordID').text)
 							else:
 								if input_data.find('CollectionSheet/IDModel/CollectionSeparator').text:
 									if record.find('RecordID').text.startswith(collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text):
-										did_element.set('id', record.find('RecordID').text)
+										file_element.set('id', record.find('RecordID').text)
 									else:
-										did_element.set('id', collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text + record.find('RecordID').text)
+										file_element.set('id', collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text + record.find('RecordID').text)
 								elif input_data.find('CollectionSheet/IDModel/SeriesSeparator').text:
 									if record.find('RecordID').text.startswith(cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text):
-										did_element.set('id', record.find('RecordID').text)
+										file_element.set('id', record.find('RecordID').text)
 									else:
-										did_element.set('id', cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text)
+										file_element.set('id', cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text)
 								else:
-									did_element.set('id', record.find('RecordID').text)
+									file_element.set('id', record.find('RecordID').text)
+						elif old_cmpt.find('did/unitid') is None:
+							if input_data.find('CollectionSheet/IDModel/CollectionSeparator').text and input_data.find('CollectionSheet/IDModel/SeriesSeparator').text:
+								if record.find('RecordID').text.startswith(collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text + cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text):
+									file_element.set('id', record.find('RecordID').text)
+								else:
+									file_element.set('id', collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text + cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text + record.find('RecordID').text)
+							else:
+								if input_data.find('CollectionSheet/IDModel/CollectionSeparator').text:
+									if record.find('RecordID').text.startswith(collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text):
+										file_element.set('id', record.find('RecordID').text)
+									else:
+										file_element.set('id', collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text + record.find('RecordID').text)
+								elif input_data.find('CollectionSheet/IDModel/SeriesSeparator').text:
+									if record.find('RecordID').text.startswith(cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text):
+										file_element.set('id', record.find('RecordID').text)
+									else:
+										file_element.set('id', cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text)
+								else:
+									file_element.set('id', record.find('RecordID').text)
 						else:
 							unitid_element = ET.Element('unitid')
 							did_element.append(unitid_element)
@@ -355,8 +376,6 @@ def components(c_root, cmpnt_info, version, arr_head, sc_head, old_physdesc, old
 							dimensions_element.text = record.find('Dimensions').text
 							if record.find('DimensionsUnit').text:
 								dimensions_element.set('unit', record.find('DimensionsUnit').text)
-						if record.find('PhysDescNote').text:
-							physdesc_element.text = record.find('PhysDescNote').text
 				else:
 					for date in record:
 						if date.text:
@@ -396,8 +415,29 @@ def components(c_root, cmpnt_info, version, arr_head, sc_head, old_physdesc, old
 						dao_element.set('href', record.find('DigitalObjectLink').text)
 					if version == "ead2002":
 						dao_element.set('linktype', 'simple')
+						dao_element.set('actuate', 'onrequest')
+						dao_element.set('show', 'new')
 						if record.find('DigitalObjectID').text:
-							dao_element.set('id', record.find('DigitalObjectID').text)
+							
+							if input_data.find('CollectionSheet/IDModel/CollectionSeparator').text and input_data.find('CollectionSheet/IDModel/SeriesSeparator').text:
+								if record.find('DigitalObjectID').text.startswith(collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text + cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text):
+									dao_element.set('id', record.find('RecordID').text + "." + record.find('DigitalObjectID').text)
+								else:
+									dao_element.set('id', collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text + cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text + record.find('RecordID').text+ "." + record.find('DigitalObjectID').text)
+							else:
+								if input_data.find('CollectionSheet/IDModel/CollectionSeparator').text:
+									if record.find('DigitalObjectID').text.startswith(collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text):
+										dao_element.set('id', record.find('RecordID').text + "." + record.find('DigitalObjectID').text)
+									else:
+										dao_element.set('id', collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text + record.find('RecordID').text + "." + record.find('DigitalObjectID').text)
+								elif input_data.find('CollectionSheet/IDModel/SeriesSeparator').text:
+									if record.find('RecordID').text.startswith(cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text):
+										dao_element.set('id', record.find('RecordID').text + "." + record.find('DigitalObjectID').text)
+									else:
+										dao_element.set('id', cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text)
+								else:
+									dao_element.set('id', record.find('RecordID').text + "." + record.find('DigitalObjectID').text)
+							
 						if record.find('DigitalObjectLocalName').text:
 							dao_element.set('title', record.find('DigitalObjectLocalName').text)
 						if record.find('DigitalObjectNote').text:
@@ -412,8 +452,29 @@ def components(c_root, cmpnt_info, version, arr_head, sc_head, old_physdesc, old
 						else:
 							from messages import error
 							error("You failed to enter a Digital Object Type for record " + record.find('RecordID').text + ". @daotype is required in EAD3, so your finding aid will not be valid.", False)
+						dao_element.set('actuate', 'onrequest')
+						dao_element.set('show', 'new')
 						if record.find('DigitalObjectID').text:
-							dao_element.set('identifier', record.find('DigitalObjectID').text)
+							
+							if input_data.find('CollectionSheet/IDModel/CollectionSeparator').text and input_data.find('CollectionSheet/IDModel/SeriesSeparator').text:
+								if record.find('DigitalObjectID').text.startswith(collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text + cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text):
+									dao_element.set('id', record.find('RecordID').text + "." + record.find('DigitalObjectID').text)
+								else:
+									dao_element.set('id', collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text + cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text + record.find('RecordID').text+ "." + record.find('DigitalObjectID').text)
+							else:
+								if input_data.find('CollectionSheet/IDModel/CollectionSeparator').text:
+									if record.find('DigitalObjectID').text.startswith(collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text):
+										dao_element.set('id', record.find('RecordID').text + "." + record.find('DigitalObjectID').text)
+									else:
+										dao_element.set('id', collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text + record.find('RecordID').text + "." + record.find('DigitalObjectID').text)
+								elif input_data.find('CollectionSheet/IDModel/SeriesSeparator').text:
+									if record.find('RecordID').text.startswith(cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text):
+										dao_element.set('id', record.find('RecordID').text + "." + record.find('DigitalObjectID').text)
+									else:
+										dao_element.set('id', cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text)
+								else:
+									dao_element.set('id', record.find('RecordID').text + "." + record.find('DigitalObjectID').text)
+							
 						if record.find('DigitalObjectLocalName').text:
 							dao_element.set('localtype', record.find('DigitalObjectLocalName').text)
 						if record.find('DigitalObjectNote').text:
@@ -422,15 +483,122 @@ def components(c_root, cmpnt_info, version, arr_head, sc_head, old_physdesc, old
 							p_element = ET.Element('p')
 							descriptivenote_element.append(p_element)
 							p_element.text = record.find('DigitalObjectNote').text
-				else:
-					if record.find('DigitalObjectNote').text:
-						note_element = ET.Element("note")
-						did_element.append(note_element)
-						p_element = ET.Element('p')
-						note_element.append(p_element)
-						p_element.text = record.find('DigitalObjectNote').text
 
-							
+				if record.find('PhysDescNote').text:
+					note_element = ET.Element("note")
+					did_element.append(note_element)
+					p_element = ET.Element('p')
+					note_element.append(p_element)
+					p_element.text = record.find('PhysDescNote').text
+			
+			#multiple digital objects
+			elif record.find('DigitalObjectLink').text or record.find('DigitalObjectID').text or record.find('DigitalObjectLocalName').text:
+				#sub file-level or sub item-level digital objects
+				digi_element = ET.Element(digi_tag)
+				file_element.append(digi_element)
+				did_element = ET.Element("did")
+				digi_element.append(did_element)
+				if record.find('DigitalObjectID').text:
+					if 'id' in file_element.attrib:
+						dao_element.set('id', file_element.attrib['id'] + "." + record.find('DigitalObjectID').text)
+					else:
+						dao_element.set('id', record.find('DigitalObjectID').text)
+				unittitle_element = ET.Element('unittitle')
+				did_element.append(unittitle_element)
+				if record.find('DigitalObjectLocalName').text:
+					unittitle_element.text = record.find('DigitalObjectLocalName').text
+				else:
+					unittitle_element.text = "Digital object"
+				
+				# <unitdate>
+				if version == "ead2002":
+					for date in record:
+						if date.text:
+							if date.tag.startswith("Date"):
+								if not date.tag.endswith("Normal"):
+									unitdate_element = ET.Element('unitdate')
+									if len(component_era) < 1:
+										pass
+									else:
+										unitdate_element.attrib['era'] = component_era
+									if len(component_cal) < 1:
+										pass
+									else:
+										unitdate_element.attrib['calendar'] = component_cal
+									unitdate_element.text = date.text
+									normal_element = date.tag + "Normal"
+									if record.find(normal_element).text:
+										unitdate_element.set('normal', record.find(normal_element).text)
+									else:
+										unitdate_element.set('normal', date.text)
+									if old_did.find('unittitle/unitdate') is None:
+										did_element.append(unitdate_element)
+									else:
+										if old_did.find('../c01/c02/did/unitdate') is None:
+											unittitle_element.append(unitdate_element)
+										else:
+											did_element.append(unitdate_element)
+				else:
+					for date in record:
+						if date.text:
+							if date.tag.startswith("Date"):
+								if not date.tag.endswith("Normal"):
+									unitdate_element = ET.Element('unitdate')
+									if len(component_era) < 1:
+										pass
+									else:
+										unitdate_element.attrib['era'] = component_era
+									if len(component_cal) < 1:
+										pass
+									else:
+										unitdate_element.attrib['calendar'] = component_cal
+									unitdate_element.text = date.text
+									if date.text.lower().startswith("ca.") or date.text.lower().startswith("circa"):
+										unitdate_element.set('certainty', 'circa')
+									normal_element = date.tag + "Normal"
+									if record.find(normal_element).text:
+										unitdate_element.set('normal', record.find(normal_element).text)
+									else:
+										unitdate_element.set('normal', date.text)
+									if old_did.find('unittitle/unitdate') is None:
+										did_element.append(unitdate_element)
+									else:
+										if old_did.find('../c01/c02/did/unitdate') is None:
+											unittitle_element.append(unitdate_element)
+										else:
+											did_element.append(unitdate_element)
+					#unitdatestructured
+					record_magic_date(did_element, record)
+				
+				#physdesc for digital object
+				if record.find('Quantity').text or record.find('Dimensions').text:
+					physdesc_element = ET.Element('physdesc')
+					did_element.append(physdesc_element)
+					if record.find('Quantity').text:
+						extent_element = ET.Element('extent')
+						physdesc_element.append(extent_element)
+						extent_element.text = record.find('Quantity').text
+						if record.find('UnitType').text:
+							extent_element.set('unit', record.find('UnitType').text)
+					if record.find('PhysicalFacet').text:
+						physfacet_element = ET.Element('physfacet')
+						physdesc_element.append(physfacet_element)
+						physfacet_element.text = record.find('PhysicalFacet').text
+					if record.find('Dimensions').text:
+						dimensions_element = ET.Element('dimensions')
+						physdesc_element.append(dimensions_element)
+						dimensions_element.text = record.find('Dimensions').text
+						if record.find('DimensionsUnit').text:
+							dimensions_element.set('unit', record.find('DimensionsUnit').text)
+				
+				if record.find('DigitalObjectNote').text:
+					descriptivenote_element = ET.Element('note')
+					did_element.append(descriptivenote_element)
+					p_element = ET.Element('p')
+					descriptivenote_element.append(p_element)
+					p_element.text = record.find('DigitalObjectNote').text
+				
+			
 
 def no_series(c_element, cmpnt_info, version, dsc_root, input_data, old_cmpt, collectionID, component_era, component_cal, old_did):
 	if input_data.find('CollectionSheet/IDModel/CollectionSeparator').text:
@@ -560,8 +728,6 @@ def no_series(c_element, cmpnt_info, version, dsc_root, input_data, old_cmpt, co
 							dimensions_element.text = record.find('Dimensions').text
 							if record.find('DimensionsUnit').text:
 								dimensions_element.set('unit', record.find('DimensionsUnit').text)
-						if record.find('PhysDescNote').text:
-							physdesc_element.text = record.find('PhysDescNote').text
 				else:
 					for date in record:
 						if date.text:
@@ -605,8 +771,29 @@ def no_series(c_element, cmpnt_info, version, dsc_root, input_data, old_cmpt, co
 						dao_element.set('href', record.find('DigitalObjectLink').text)
 					if version == "ead2002":
 						dao_element.set('linktype', 'simple')
+						dao_element.set('actuate', 'onrequest')
+						dao_element.set('show', 'new')
 						if record.find('DigitalObjectID').text:
-							dao_element.set('id', record.find('DigitalObjectID').text)
+							
+							if input_data.find('CollectionSheet/IDModel/CollectionSeparator').text and input_data.find('CollectionSheet/IDModel/SeriesSeparator').text:
+								if record.find('DigitalObjectID').text.startswith(collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text + cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text):
+									dao_element.set('id', record.find('RecordID').text + "." + record.find('DigitalObjectID').text)
+								else:
+									dao_element.set('id', collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text + cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text + record.find('RecordID').text+ "." + record.find('DigitalObjectID').text)
+							else:
+								if input_data.find('CollectionSheet/IDModel/CollectionSeparator').text:
+									if record.find('DigitalObjectID').text.startswith(collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text):
+										dao_element.set('id', record.find('RecordID').text + "." + record.find('DigitalObjectID').text)
+									else:
+										dao_element.set('id', collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text + record.find('RecordID').text + "." + record.find('DigitalObjectID').text)
+								elif input_data.find('CollectionSheet/IDModel/SeriesSeparator').text:
+									if record.find('RecordID').text.startswith(cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text):
+										dao_element.set('id', record.find('RecordID').text + "." + record.find('DigitalObjectID').text)
+									else:
+										dao_element.set('id', cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text)
+								else:
+									dao_element.set('id', record.find('RecordID').text + "." + record.find('DigitalObjectID').text)
+							
 						if record.find('DigitalObjectLocalName').text:
 							dao_element.set('title', record.find('DigitalObjectLocalName').text)
 						if record.find('DigitalObjectNote').text:
@@ -621,8 +808,29 @@ def no_series(c_element, cmpnt_info, version, dsc_root, input_data, old_cmpt, co
 						else:
 							from messages import error
 							error("You failed to enter a Digital Object Type for record " + record.find('RecordID').text + ". @daotype is required in EAD3, so your finding aid will not be valid.", False)
+						dao_element.set('actuate', 'onrequest')
+						dao_element.set('show', 'new')
 						if record.find('DigitalObjectID').text:
-							dao_element.set('identifier', record.find('DigitalObjectID').text)
+							
+							if input_data.find('CollectionSheet/IDModel/CollectionSeparator').text and input_data.find('CollectionSheet/IDModel/SeriesSeparator').text:
+								if record.find('DigitalObjectID').text.startswith(collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text + cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text):
+									dao_element.set('id', record.find('RecordID').text + "." + record.find('DigitalObjectID').text)
+								else:
+									dao_element.set('id', collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text + cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text + record.find('RecordID').text+ "." + record.find('DigitalObjectID').text)
+							else:
+								if input_data.find('CollectionSheet/IDModel/CollectionSeparator').text:
+									if record.find('DigitalObjectID').text.startswith(collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text):
+										dao_element.set('id', record.find('RecordID').text + "." + record.find('DigitalObjectID').text)
+									else:
+										dao_element.set('id', collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text + record.find('RecordID').text + "." + record.find('DigitalObjectID').text)
+								elif input_data.find('CollectionSheet/IDModel/SeriesSeparator').text:
+									if record.find('RecordID').text.startswith(cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text):
+										dao_element.set('id', record.find('RecordID').text + "." + record.find('DigitalObjectID').text)
+									else:
+										dao_element.set('id', cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text)
+								else:
+									dao_element.set('id', record.find('RecordID').text + "." + record.find('DigitalObjectID').text)
+							
 						if record.find('DigitalObjectLocalName').text:
 							dao_element.set('localtype', record.find('DigitalObjectLocalName').text)
 						if record.find('DigitalObjectNote').text:
@@ -630,11 +838,118 @@ def no_series(c_element, cmpnt_info, version, dsc_root, input_data, old_cmpt, co
 							dao_element.append(descriptivenote_element)
 							p_element = ET.Element('p')
 							descriptivenote_element.append(p_element)
-							p_element.text = record.find('DigitalObjectNote').text	
+							p_element.text = record.find('DigitalObjectNote').text
+
+				if record.find('PhysDescNote').text:
+					note_element = ET.Element("note")
+					did_element.append(note_element)
+					p_element = ET.Element('p')
+					note_element.append(p_element)
+					p_element.text = record.find('PhysDescNote').text
+					
+			#multiple digital objects
+			elif record.find('DigitalObjectLink').text or record.find('DigitalObjectID').text or record.find('DigitalObjectLocalName').text:
+				#sub file-level or sub item-level digital objects
+				digi_element = ET.Element(digi_tag)
+				file_element.append(digi_element)
+				did_element = ET.Element("did")
+				digi_element.append(did_element)
+				if record.find('DigitalObjectID').text:
+					if 'id' in file_element.attrib:
+						dao_element.set('id', file_element.attrib['id'] + "." + record.find('DigitalObjectID').text)
+					else:
+						dao_element.set('id', record.find('DigitalObjectID').text)
+				unittitle_element = ET.Element('unittitle')
+				did_element.append(unittitle_element)
+				if record.find('DigitalObjectLocalName').text:
+					unittitle_element.text = record.find('DigitalObjectLocalName').text
 				else:
-					if record.find('DigitalObjectNote').text:
-						note_element = ET.Element("note")
-						did_element.append(note_element)
-						p_element = ET.Element('p')
-						note_element.append(p_element)
-						p_element.text = record.find('DigitalObjectNote').text
+					unittitle_element.text = "Digital object"
+				
+				# <unitdate>
+				if version == "ead2002":
+					for date in record:
+						if date.text:
+							if date.tag.startswith("Date"):
+								if not date.tag.endswith("Normal"):
+									unitdate_element = ET.Element('unitdate')
+									if len(component_era) < 1:
+										pass
+									else:
+										unitdate_element.attrib['era'] = component_era
+									if len(component_cal) < 1:
+										pass
+									else:
+										unitdate_element.attrib['calendar'] = component_cal
+									unitdate_element.text = date.text
+									normal_element = date.tag + "Normal"
+									if record.find(normal_element).text:
+										unitdate_element.set('normal', record.find(normal_element).text)
+									else:
+										unitdate_element.set('normal', date.text)
+									if old_did.find('unittitle/unitdate') is None:
+										did_element.append(unitdate_element)
+									else:
+										if old_did.find('../c01/c02/did/unitdate') is None:
+											unittitle_element.append(unitdate_element)
+										else:
+											did_element.append(unitdate_element)
+				else:
+					for date in record:
+						if date.text:
+							if date.tag.startswith("Date"):
+								if not date.tag.endswith("Normal"):
+									unitdate_element = ET.Element('unitdate')
+									if len(component_era) < 1:
+										pass
+									else:
+										unitdate_element.attrib['era'] = component_era
+									if len(component_cal) < 1:
+										pass
+									else:
+										unitdate_element.attrib['calendar'] = component_cal
+									unitdate_element.text = date.text
+									if date.text.lower().startswith("ca.") or date.text.lower().startswith("circa"):
+										unitdate_element.set('certainty', 'circa')
+									normal_element = date.tag + "Normal"
+									if record.find(normal_element).text:
+										unitdate_element.set('normal', record.find(normal_element).text)
+									else:
+										unitdate_element.set('normal', date.text)
+									if old_did.find('unittitle/unitdate') is None:
+										did_element.append(unitdate_element)
+									else:
+										if old_did.find('../c01/c02/did/unitdate') is None:
+											unittitle_element.append(unitdate_element)
+										else:
+											did_element.append(unitdate_element)
+					#unitdatestructured
+					record_magic_date(did_element, record)
+				
+				#physdesc for digital object
+				if record.find('Quantity').text or record.find('Dimensions').text:
+					physdesc_element = ET.Element('physdesc')
+					did_element.append(physdesc_element)
+					if record.find('Quantity').text:
+						extent_element = ET.Element('extent')
+						physdesc_element.append(extent_element)
+						extent_element.text = record.find('Quantity').text
+						if record.find('UnitType').text:
+							extent_element.set('unit', record.find('UnitType').text)
+					if record.find('PhysicalFacet').text:
+						physfacet_element = ET.Element('physfacet')
+						physdesc_element.append(physfacet_element)
+						physfacet_element.text = record.find('PhysicalFacet').text
+					if record.find('Dimensions').text:
+						dimensions_element = ET.Element('dimensions')
+						physdesc_element.append(dimensions_element)
+						dimensions_element.text = record.find('Dimensions').text
+						if record.find('DimensionsUnit').text:
+							dimensions_element.set('unit', record.find('DimensionsUnit').text)
+				
+				if record.find('DigitalObjectNote').text:
+					descriptivenote_element = ET.Element('note')
+					did_element.append(descriptivenote_element)
+					p_element = ET.Element('p')
+					descriptivenote_element.append(p_element)
+					p_element.text = record.find('DigitalObjectNote').text

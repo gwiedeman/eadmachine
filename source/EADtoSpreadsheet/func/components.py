@@ -394,17 +394,16 @@ def components(cmpnt_root, CSheet, SeriesSheet, level, child_tag, version):
 							pass
 						else:
 							PhysicalFacet_element.text = file_root.find('did/physdescstructured/physfacet').text
-						if file_root.find('did/physdescstructured/descriptivenote/p') is None:
-							pass
-						else:
-							PhysDescNote_element.text = file_root.find('did/physdescstructured/descriptivenote/p').text
 							
+				#notes
+				if file_root.find('did/note/p') is None:
+					pass
+				else:
+					PhysDescNote_element.text = mixed_content(file_root.find('did/note/p'))
+				
 				#digital objects
 				if file_root.find('did/dao') is None:
-					if file_root.find('did/note/p') is None:
-						pass
-					else:
-						DigitalObjectNote_element.text = mixed_content(file_root.find('did/note/p'))
+					pass
 				else:
 					if "daotype" in file_root.find('did/dao').attrib:
 						DigitalObjectType_element.text = file_root.find('did/dao').attrib['daotype']

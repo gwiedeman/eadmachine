@@ -119,7 +119,7 @@ def SpreadsheettoEAD(input_xml, template_xml):
 	
 	dom = minidom.parseString(rough_string)
 	if "ask_ualbany" in func.globals.new_elements:
-		pi = dom.createProcessingInstruction('xml-stylesheet', 'type="text/xsl" href="eadcbs6-su1_mw_6-14.xsl"')
+		pi = dom.createProcessingInstruction('xml-stylesheet', 'type="text/xsl" href="eadcbs6-su1_gw_4-30-15.xsl"')
 		root = dom.firstChild
 		dom.insertBefore(pi, root)
 	

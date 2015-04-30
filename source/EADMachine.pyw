@@ -131,7 +131,7 @@ Suite 330, Boston, MA  02111-1307  USA"""
             
         info.SetIcon(wx.Icon(resource_path('resources/em.gif'), wx.BITMAP_TYPE_GIF))
         info.SetName('EADMachine')
-        info.SetVersion('0.6 - beta')
+        info.SetVersion('0.7 - beta')
         info.SetDescription(description)
         info.SetCopyright('(C) 2014 - 2015 Gregory Wiedeman')
         info.SetWebSite('https://github.com/gwiedeman/eadmachine')

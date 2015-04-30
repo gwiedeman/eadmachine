@@ -580,22 +580,23 @@ def html(input, html_root):
 						td_arr_element.text = arrange.text
 			
 			# Series Scope and Content
-			for scope in cmpnt_info.find('Description'):
-				if scope.text is None:
-					pass
-				else:
-					tr_acope_element = ET.Element('tr')
-					td_element = ET.Element('td')
-					td_scope_element = ET.Element('td')
-					table_element.append(tr_acope_element)
-					if int(cmpnt.find('ComponentLevel').text) > 1:
-						tr_acope_element.append(td_element)
-						tr_acope_element.append(td_scope_element)
-						td_scope_element.set("colspan", "11")
+			if cmpnt_info.find('Description/p'):
+				for scope in cmpnt_info.find('Description'):
+					if scope.text is None:
+						pass
 					else:
-						tr_acope_element.append(td_scope_element)
-						td_scope_element.set("colspan", "12")
-					td_scope_element.text = scope.text
+						tr_acope_element = ET.Element('tr')
+						td_element = ET.Element('td')
+						td_scope_element = ET.Element('td')
+						table_element.append(tr_acope_element)
+						if int(cmpnt.find('ComponentLevel').text) > 1:
+							tr_acope_element.append(td_element)
+							tr_acope_element.append(td_scope_element)
+							td_scope_element.set("colspan", "11")
+						else:
+							tr_acope_element.append(td_scope_element)
+							td_scope_element.set("colspan", "12")
+						td_scope_element.text = scope.text
 			
 			table_element.append(column_labels)
 			
