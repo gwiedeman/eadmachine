@@ -561,22 +561,23 @@ def html(input, html_root):
 									else:
 										a_name_element.text = cmpnt_info.find('SeriesName').text 	+ " (" + main_extent + ")"
 			# Arrangement
-			for arrange in cmpnt_info.find('Arrangement'):
-				if arrange.text is None:
-					pass
-				else:
-					tr_arr_element = ET.Element('tr')
-					td_element = ET.Element('td')
-					td_arr_element = ET.Element('td')
-					table_element.append(tr_arr_element)
-					if int(cmpnt.find('ComponentLevel').text) > 1:
-						tr_arr_element.append(td_element)
-						tr_arr_element.append(td_arr_element)
-						td_arr_element.set("colspan", "11")
+			if cmpnt_info.find('Arrangement/p'):
+				for arrange in cmpnt_info.find('Arrangement'):
+					if arrange.text is None:
+						pass
 					else:
-						tr_arr_element.append(td_arr_element)
-						td_arr_element.set("colspan", "12")
-					td_arr_element.text = arrange.text
+						tr_arr_element = ET.Element('tr')
+						td_element = ET.Element('td')
+						td_arr_element = ET.Element('td')
+						table_element.append(tr_arr_element)
+						if int(cmpnt.find('ComponentLevel').text) > 1:
+							tr_arr_element.append(td_element)
+							tr_arr_element.append(td_arr_element)
+							td_arr_element.set("colspan", "11")
+						else:
+							tr_arr_element.append(td_arr_element)
+							td_arr_element.set("colspan", "12")
+						td_arr_element.text = arrange.text
 			
 			# Series Scope and Content
 			for scope in cmpnt_info.find('Description'):
