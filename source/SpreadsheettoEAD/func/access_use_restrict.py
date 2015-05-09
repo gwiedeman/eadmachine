@@ -177,35 +177,41 @@ def access_use_lower(arch_root, input_element, tag_name, collectionID, series_se
 								# <unitid> within <did> of <c01>, <c02>, etc.:
 								for match in arch_root.find('dsc').iter():
 									if match.tag.startswith('c0') or match.tag.startswith('c1'):
-										if match.find('did/unitid').text:
-											if match.find('did/unitid').text == collectionID + restriction.find('UnitID').text:
-												if match.find(tag_name) is None:
-													restrict_element = ET.Element(tag_name)
-													append_index = match.getchildren().index(match.find('did')) + 1
-													match.insert(append_index, restrict_element)
-													p_element = ET.Element('p')
-													restrict_element.append(p_element)
-													p_element.text = restriction.find('Restriction').text
-												else:
-													p_element = ET.Element('p')
-													match.find(tag_name).append(p_element)
-													p_element.text = restriction.find('Restriction').text
+										if match.find('did/unitid') is None:
+											pass
+										else:
+											if match.find('did/unitid').text:
+												if match.find('did/unitid').text == collectionID + restriction.find('UnitID').text:
+													if match.find(tag_name) is None:
+														restrict_element = ET.Element(tag_name)
+														append_index = match.getchildren().index(match.find('did')) + 1
+														match.insert(append_index, restrict_element)
+														p_element = ET.Element('p')
+														restrict_element.append(p_element)
+														p_element.text = restriction.find('Restriction').text
+													else:
+														p_element = ET.Element('p')
+														match.find(tag_name).append(p_element)
+														p_element.text = restriction.find('Restriction').text
 							else:
 								# <unitid> within <did> of <c> or no series:
 								for match in arch_root.find('dsc').iter('c'):
 									if match.find('did/unitid') is None:
 										pass
 									else:
-										if match.find('did/unitid').text:
-											if match.find('did/unitid').text == collectionID + restriction.find('UnitID').text:
-												if match.find(tag_name) is None:
-													restrict_element = ET.Element(tag_name)
-													append_index = match.getchildren().index(match.find('did')) + 1
-													match.insert(append_index, restrict_element)
-													p_element = ET.Element('p')
-													restrict_element.append(p_element)
-													p_element.text = restriction.find('Restriction').text
-												else:
-													p_element = ET.Element('p')
-													match.find(tag_name).append(p_element)
-													p_element.text = restriction.find('Restriction').text
+										if match.find('did/unitid') is None:
+											pass
+										else:
+											if match.find('did/unitid').text:
+												if match.find('did/unitid').text == collectionID + restriction.find('UnitID').text:
+													if match.find(tag_name) is None:
+														restrict_element = ET.Element(tag_name)
+														append_index = match.getchildren().index(match.find('did')) + 1
+														match.insert(append_index, restrict_element)
+														p_element = ET.Element('p')
+														restrict_element.append(p_element)
+														p_element.text = restriction.find('Restriction').text
+													else:
+														p_element = ET.Element('p')
+														match.find(tag_name).append(p_element)
+														p_element.text = restriction.find('Restriction').text

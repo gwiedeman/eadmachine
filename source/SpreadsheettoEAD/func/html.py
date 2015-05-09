@@ -271,11 +271,12 @@ def html(input, html_root):
 				h4_element.append(b_element)
 				b_element.text = "Corporate Bodies"
 				for heading in CSheet.find('ControlledAccess'):
-					if heading.find('ElementName').text.lower() == "corpname":
-						div_element = ET.Element('div')
-						main_div_element.append(div_element)
-						div_element.text = heading.find('Part').text
-						div_element.set("style", "margin-left:50pt")
+					if heading.find('ElementName').text:
+						if heading.find('ElementName').text.lower() == "corpname":
+							div_element = ET.Element('div')
+							main_div_element.append(div_element)
+							div_element.text = heading.find('Part').text
+							div_element.set("style", "margin-left:50pt")
 			if subject == True:
 				h4_element = ET.Element('h4')
 				main_div_element.append(h4_element)
@@ -284,11 +285,12 @@ def html(input, html_root):
 				h4_element.append(b_element)
 				b_element.text = "Subjects"
 				for heading in CSheet.find('ControlledAccess'):
-					if heading.find('ElementName').text.lower() == "subject":
-						div_element = ET.Element('div')
-						main_div_element.append(div_element)
-						div_element.text = heading.find('Part').text
-						div_element.set("style", "margin-left:50pt")
+					if heading.find('ElementName').text:
+						if heading.find('ElementName').text.lower() == "subject":
+							div_element = ET.Element('div')
+							main_div_element.append(div_element)
+							div_element.text = heading.find('Part').text
+							div_element.set("style", "margin-left:50pt")
 			if geogname == True:
 				h4_element = ET.Element('h4')
 				main_div_element.append(h4_element)
@@ -297,11 +299,12 @@ def html(input, html_root):
 				h4_element.append(b_element)
 				b_element.text = "Places"
 				for heading in CSheet.find('ControlledAccess'):
-					if heading.find('ElementName').text.lower() == "geogname":
-						div_element = ET.Element('div')
-						main_div_element.append(div_element)
-						div_element.text = heading.find('Part').text
-						div_element.set("style", "margin-left:50pt")
+					if heading.find('ElementName').text:
+						if heading.find('ElementName').text.lower() == "geogname":
+							div_element = ET.Element('div')
+							main_div_element.append(div_element)
+							div_element.text = heading.find('Part').text
+							div_element.set("style", "margin-left:50pt")
 			if famname == True:
 				h4_element = ET.Element('h4')
 				main_div_element.append(h4_element)
@@ -310,11 +313,12 @@ def html(input, html_root):
 				h4_element.append(b_element)
 				b_element.text = "Family Names"
 				for heading in CSheet.find('ControlledAccess'):
-					if heading.find('ElementName').text.lower() == "famname":
-						div_element = ET.Element('div')
-						main_div_element.append(div_element)
-						div_element.text = heading.find('Part').text
-						div_element.set("style", "margin-left:50pt")
+					if heading.find('ElementName').text:
+						if heading.find('ElementName').text.lower() == "famname":
+							div_element = ET.Element('div')
+							main_div_element.append(div_element)
+							div_element.text = heading.find('Part').text
+							div_element.set("style", "margin-left:50pt")
 			if occupation == True:
 				h4_element = ET.Element('h4')
 				main_div_element.append(h4_element)
@@ -323,11 +327,12 @@ def html(input, html_root):
 				h4_element.append(b_element)
 				b_element.text = "Occupations"
 				for heading in CSheet.find('ControlledAccess'):
-					if heading.find('ElementName').text.lower() == "occupation":
-						div_element = ET.Element('div')
-						main_div_element.append(div_element)
-						div_element.text = heading.find('Part').text
-						div_element.set("style", "margin-left:50pt")
+					if heading.find('ElementName').text:
+						if heading.find('ElementName').text.lower() == "occupation":
+							div_element = ET.Element('div')
+							main_div_element.append(div_element)
+							div_element.text = heading.find('Part').text
+							div_element.set("style", "margin-left:50pt")
 			if title == True:
 				h4_element = ET.Element('h4')
 				main_div_element.append(h4_element)
@@ -336,11 +341,12 @@ def html(input, html_root):
 				h4_element.append(b_element)
 				b_element.text = "Titles"
 				for heading in CSheet.find('ControlledAccess'):
-					if heading.find('ElementName').text.lower() == "title":
-						div_element = ET.Element('div')
-						main_div_element.append(div_element)
-						div_element.text = heading.find('Part').text
-						div_element.set("style", "margin-left:50pt")
+					if heading.find('ElementName').text:
+						if heading.find('ElementName').text.lower() == "title":
+							div_element = ET.Element('div')
+							main_div_element.append(div_element)
+							div_element.text = heading.find('Part').text
+							div_element.set("style", "margin-left:50pt")
 			if name == True:
 				h4_element = ET.Element('h4')
 				main_div_element.append(h4_element)
@@ -349,11 +355,12 @@ def html(input, html_root):
 				h4_element.append(b_element)
 				b_element.text = "Names"
 				for heading in CSheet.find('ControlledAccess'):
-					if heading.find('ElementName').text.lower() == "name":
-						div_element = ET.Element('div')
-						main_div_element.append(div_element)
-						div_element.text = heading.find('Part').text
-						div_element.set("style", "margin-left:50pt")
+					if heading.find('ElementName').text:
+						if heading.find('ElementName').text.lower() == "name":
+							div_element = ET.Element('div')
+							main_div_element.append(div_element)
+							div_element.text = heading.find('Part').text
+							div_element.set("style", "margin-left:50pt")
 			if genreform == True:
 				h4_element = ET.Element('h4')
 				main_div_element.append(h4_element)
@@ -362,11 +369,12 @@ def html(input, html_root):
 				h4_element.append(b_element)
 				b_element.text = "Genres and Forms"
 				for heading in CSheet.find('ControlledAccess'):
-					if heading.find('ElementName').text.lower() == "genreform":
-						div_element = ET.Element('div')
-						main_div_element.append(div_element)
-						div_element.text = heading.find('Part').text
-						div_element.set("style", "margin-left:50pt")
+					if heading.find('ElementName').text:
+						if heading.find('ElementName').text.lower() == "genreform":
+							div_element = ET.Element('div')
+							main_div_element.append(div_element)
+							div_element.text = heading.find('Part').text
+							div_element.set("style", "margin-left:50pt")
 					
 	cite_index = html_root.find("body/table/tr/td[@id='main']").getchildren().index(html_root.find("body/table/tr/td/p[@id='cite']")) + 1
 	for cite_display in CSheet.find('PreferredCitation'):

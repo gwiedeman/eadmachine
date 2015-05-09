@@ -221,17 +221,20 @@ def components(c_root, cmpnt_info, version, arr_head, sc_head, old_physdesc, old
 					if version == "ead2002":
 						if record.find('BoxName').text:
 							container_element.set('type', record.find('BoxName').text)
-						for container in input_data.find('CollectionSheet/ContainerData'):
-							if container.find('ContainerNumber').text == record.find('BoxNumber').text:
-								if record.find('BoxName').text:
-									if container.find('ContainerLabel').text == record.find('BoxName').text:
-										if record.find('BoxName').text.lower() == "box":
-											if container.find('ContainerParent').text == cmpnt_info.find('SeriesNumber').text:
+						if input_data.find('CollectionSheet/ContainerData') is None:
+							pass
+						else:
+							for container in input_data.find('CollectionSheet/ContainerData'):
+								if container.find('ContainerNumber').text == record.find('BoxNumber').text:
+									if record.find('BoxName').text:
+										if container.find('ContainerLabel').text == record.find('BoxName').text:
+											if record.find('BoxName').text.lower() == "box":
+												if container.find('ContainerParent').text == cmpnt_info.find('SeriesNumber').text:
+													if container.find('ContainerID').text:
+														container_element.set('id', container.find('ContainerID').text)
+											else:
 												if container.find('ContainerID').text:
-													container_element.set('id', container.find('ContainerID').text)
-										else:
-											if container.find('ContainerID').text:
-												container_element.set('id', container.find('ContainerID').text)                                
+													container_element.set('id', container.find('ContainerID').text)                                
 					else:
 						if record.find('BoxName').text:
 							container_element.set('localtype', record.find('BoxName').text)

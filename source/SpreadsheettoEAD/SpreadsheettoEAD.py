@@ -4,6 +4,7 @@ import func.globals
 import wx
 from func.messages import error
 from xml.dom import minidom
+import os.path
 
 def SpreadsheettoEAD(input_xml, template_xml):
 
@@ -80,26 +81,29 @@ def SpreadsheettoEAD(input_xml, template_xml):
 	html_output = False
 	if "ask_html" in func.globals.new_elements:
 		from func.html import html
-		htmlmodel_file = ET.ElementTree(file="../templates/html_default.html")
-		htmlmodel = htmlmodel_file.getroot()
-		html_element = html(input, htmlmodel)
-		for italic in html_element.findall(".//emph[@render='italic']"):
-			italic.tag = "i"
-			del italic.attrib['render']
-		for bold in html_element.findall(".//emph[@render='bold']"):
-			bold.tag = "b"
-			del bold.attrib['render']
-		rough_html = ET.tostring(html_element)
-		#adds doctype
-		dom_html = minidom.parseString(rough_html)
-		#html_pi = dom_html.createProcessingInstruction('DOCTYPE', 'html')
-		#html_root = dom_html.firstChild
-		#dom_html.insertBefore(html_pi, html_root)
-		pretty_html = dom_html.toxml()
-		html_output = prettyprint(pretty_html)
-		#html_output_element = ET.fromstring(pretty_html)
-		#html_output = ET.ElementTree(html_output_element)
-		#html_output.write(input.find('CollectionSheet/CollectionID').text + '.html', method='xml')
+		if os.path.isfile("templates/html_default.html"):
+			htmlmodel_file = ET.ElementTree(file="templates/html_default.html")
+			htmlmodel = htmlmodel_file.getroot()
+			html_element = html(input, htmlmodel)
+			for italic in html_element.findall(".//emph[@render='italic']"):
+				italic.tag = "i"
+				del italic.attrib['render']
+			for bold in html_element.findall(".//emph[@render='bold']"):
+				bold.tag = "b"
+				del bold.attrib['render']
+			rough_html = ET.tostring(html_element)
+			#adds doctype
+			dom_html = minidom.parseString(rough_html)
+			#html_pi = dom_html.createProcessingInstruction('DOCTYPE', 'html')
+			#html_root = dom_html.firstChild
+			#dom_html.insertBefore(html_pi, html_root)
+			pretty_html = dom_html.toxml()
+			html_output = prettyprint(pretty_html)
+			#html_output_element = ET.fromstring(pretty_html)
+			#html_output = ET.ElementTree(html_output_element)
+			#html_output.write(input.find('CollectionSheet/CollectionID').text + '.html', method='xml')
+		else:
+			error("HTML MODULE FAILED: Cannot find html_default.html in the templates folder, EADMachine will not be able to create an html file for this collection", False)
 		
 	#Removes unitids at the file level
 	if "ask_fileunitid" in func.globals.new_elements:
