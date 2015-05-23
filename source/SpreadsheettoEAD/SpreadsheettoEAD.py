@@ -1,9 +1,9 @@
 import xml.etree.cElementTree as ET
+from lxml import etree as lxml
 from func.prettyprint import prettyprint
 import func.globals
 import wx
 from func.messages import error
-from xml.dom import minidom
 import os.path
 
 def SpreadsheettoEAD(input_xml, template_xml):
@@ -116,32 +116,53 @@ def SpreadsheettoEAD(input_xml, template_xml):
 				else:
 					did.remove(did.find('unitid'))
 	
+	if template.iter('c02') is None:
+		if template.find('archdesc/dsc/c') is None:
+			no_series = True
+		else:
+			series_count = 0
+			for series in template.find('archdesc/dsc'):
+				if series.find('c') is None:
+					pass
+				else:
+					series_count = series_count + 1
+			if series_count > 0:
+				no_series = False
+			else:
+				no_series = True
+	else:
+		no_series = False
+	
 	# Sets Processing Instructions and pretty prints the XML
-	#output_test = ET.ElementTree(template)
-	#output_test.write("output_test.xml")
 	rough_string = ET.tostring(template)
+	parser = lxml.XMLParser(remove_blank_text=True)
+	to_lxml = lxml.fromstring(rough_string, parser)
 	
-	dom = minidom.parseString(rough_string)
+	pretty_string = lxml.tostring(to_lxml, pretty_print=True, xml_declaration=True, encoding="utf-8", doctype="<!DOCTYPE ead SYSTEM 'ead.dtd'>")
+	
+
 	if "ask_ualbany" in func.globals.new_elements:
-		pi = dom.createProcessingInstruction('xml-stylesheet', 'type="text/xsl" href="eadcbs6-su1_gw_4-30-15.xsl"')
-		root = dom.firstChild
-		dom.insertBefore(pi, root)
+		if no_series == True:
+			FA_output = pretty_string[:38] + "\n<?xml-stylesheet type='text/xsl' href='eadcbs6-su1_gw_no_series.xsl'?> " + pretty_string[38:]
+		else:
+			FA_output = pretty_string[:38] + "\n<?xml-stylesheet type='text/xsl' href='eadcbs6-su1_gw_4-30-15.xsl'?> " + pretty_string[38:]
+		output = prettyprint(FA_output)
+	else:
+		output = prettyprint(pretty_string)
 	
-	dt = minidom.getDOMImplementation('').createDocumentType('ead', '', 'ead.dtd')
-	dom.insertBefore(dt, dom.documentElement)
-		
-	pretty_string = dom.toxml()
-	output = prettyprint(pretty_string)
+	#file = open("test.xml", "w")
+	#file.write(FA_output)
 	
 	#output_element = ET.fromstring(with_pi)
 	#output = ET.ElementTree(output_element)
 	if "ask_gui" in func.globals.new_elements:
 		wx.CallAfter(pub.sendMessage, "update", msg="Finalizing EAD...")
+		
+	
 	
 	return (output, html_output)
 	"""
 	output.write(input.find('CollectionSheet/CollectionID').text + '.xml', xml_declaration=True, encoding='utf-8', method='xml')
-
 	# prints a confirmation statement
 	name = template.find('archdesc/did/unittitle')
 	if name.text.startswith("The") or name.text.startswith("the"):

@@ -15,9 +15,11 @@ def prettyprint(element):
 	greaterthen = lessthen.replace('&gt;', '>')
 	#with open("parse_test.txt", 'w') as f:  
             #f.write(greaterthen)  
-	reparsed = parseString(greaterthen)
-	output = '\n'.join([line for line in reparsed.toprettyxml(indent=' '*2).split('\n') if line.strip()])
-	quotefix = output.replace('&quot;', '"')
+	fix_quote2 = greaterthen.replace('render=italic', "render='italic'")
+	fix_quote3 = fix_quote2.replace('render=bold', "render='bold'")
+	#reparsed = parseString(fix_quote3)
+	#output = '\n'.join([line for line in reparsed.toprettyxml(indent=' '*2).split('\n') if line.strip()])
+	quotefix = fix_quote3.replace('&quot;', '\"')
 	if "ask_gui" in globals.new_elements:
 		wx.CallAfter(pub.sendMessage, "update", msg="Removing non-ascii characters...")
 	return quotefix
