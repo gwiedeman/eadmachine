@@ -123,7 +123,10 @@ class TabPanel(wx.Panel):
         
     def goClick(self, event, input_xml, template_xml, cID):
         self.panel_two.Hide()
-        self.passID = cID
+        if cID.startswith('nam_'):
+            self.passID = cID.replace('nam_', '')
+        else:
+            self.passID = cID
 		
         
         

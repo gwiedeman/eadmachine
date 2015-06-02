@@ -21,7 +21,7 @@ def components(c_root, cmpnt_info, version, arr_head, sc_head, old_physdesc, old
 		unittitle_element.text = cmpnt_info.find('SeriesName').text
 	if cmpnt_info.find('SeriesNumber').text:
 		if input_data.find('CollectionSheet/IDModel/CollectionSeparator').text:
-			if cmpnt_info.find('SeriesNumber').text.startswith(collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text):
+			if cmpnt_info.find('SeriesNumber').text.startswith(collectionID):
 				if "id" in old_ser.attrib:
 					c_root.set('id', cmpnt_info.find('SeriesNumber').text)
 				else:
@@ -30,11 +30,11 @@ def components(c_root, cmpnt_info, version, arr_head, sc_head, old_physdesc, old
 					unitid_element.text = cmpnt_info.find('SeriesNumber').text
 			else:
 				if "id" in old_ser.attrib:
-					c_root.set('id', collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text + cmpnt_info.find('SeriesNumber').text)
+					c_root.set('id', collectionID + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text + cmpnt_info.find('SeriesNumber').text)
 				else:
 					unitid_element = ET.Element('unitid')
 					did_element.append(unitid_element)
-					unitid_element.text = collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text + cmpnt_info.find('SeriesNumber').text
+					unitid_element.text = collectionID + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text + cmpnt_info.find('SeriesNumber').text
 		else:
 			if "id" in old_ser.attrib:
 				c_root.set('id', cmpnt_info.find('SeriesNumber').text)
@@ -270,66 +270,68 @@ def components(c_root, cmpnt_info, version, arr_head, sc_head, old_physdesc, old
 					did_element.append(unittitle_element)
 					unittitle_element.text = record.find('UnitTitle').text
 					
+				
+				
 				# <unitid>
 				if record.find('RecordID').text:
 					if record.find('RecordID').text != ".":
 						if "id" in old_cmpt.attrib:
-							if input_data.find('CollectionSheet/IDModel/CollectionSeparator').text and input_data.find('CollectionSheet/IDModel/SeriesSeparator').text:
-								if record.find('RecordID').text.startswith(collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text + cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text):
+							if input_data.find('CollectionSheet/IDModel/CollectionSeparator').text and input_data.find('CollectionSheet/IDModel/SeriesSeparator').text and cmpnt_info.find('SeriesNumber').text:
+								if record.find('RecordID').text.startswith(collectionID + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text + cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text):
 									file_element.set('id', record.find('RecordID').text)
 								else:
-									file_element.set('id', collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text + cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text + record.find('RecordID').text)
+									file_element.set('id', collectionID + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text + cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text + record.find('RecordID').text)
 							else:
-								if input_data.find('CollectionSheet/IDModel/CollectionSeparator').text:
-									if record.find('RecordID').text.startswith(collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text):
+								if input_data.find('CollectionSheet/IDModel/SeriesSeparator').text and cmpnt_info.find('SeriesNumber').text :
+									if record.find('RecordID').text.startswith(collectionID + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text):
 										file_element.set('id', record.find('RecordID').text)
 									else:
-										file_element.set('id', collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text + record.find('RecordID').text)
-								elif input_data.find('CollectionSheet/IDModel/SeriesSeparator').text:
-									if record.find('RecordID').text.startswith(cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text):
+										file_element.set('id', collectionID + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text + record.find('RecordID').text)
+								elif input_data.find('CollectionSheet/IDModel/CollectionSeparator').text and cmpnt_info.find('SeriesNumber').text :
+									if record.find('RecordID').text.startswith(cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text):
 										file_element.set('id', record.find('RecordID').text)
 									else:
-										file_element.set('id', cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text)
+										file_element.set('id', cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text)
 								else:
 									file_element.set('id', record.find('RecordID').text)
 						elif old_cmpt.find('did/unitid') is None:
-							if input_data.find('CollectionSheet/IDModel/CollectionSeparator').text and input_data.find('CollectionSheet/IDModel/SeriesSeparator').text:
-								if record.find('RecordID').text.startswith(collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text + cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text):
+							if input_data.find('CollectionSheet/IDModel/CollectionSeparator').text and input_data.find('CollectionSheet/IDModel/SeriesSeparator').text and cmpnt_info.find('SeriesNumber').text:
+								if record.find('RecordID').text.startswith(collectionID + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text + cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text):
 									file_element.set('id', record.find('RecordID').text)
 								else:
-									file_element.set('id', collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text + cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text + record.find('RecordID').text)
+									file_element.set('id', collectionID + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text + cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text + record.find('RecordID').text)
 							else:
-								if input_data.find('CollectionSheet/IDModel/CollectionSeparator').text:
-									if record.find('RecordID').text.startswith(collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text):
+								if input_data.find('CollectionSheet/IDModel/SeriesSeparator').text and cmpnt_info.find('SeriesNumber').text :
+									if record.find('RecordID').text.startswith(collectionID + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text):
 										file_element.set('id', record.find('RecordID').text)
 									else:
-										file_element.set('id', collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text + record.find('RecordID').text)
-								elif input_data.find('CollectionSheet/IDModel/SeriesSeparator').text:
-									if record.find('RecordID').text.startswith(cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text):
+										file_element.set('id', collectionID + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text + record.find('RecordID').text)
+								elif input_data.find('CollectionSheet/IDModel/CollectionSeparator').text and cmpnt_info.find('SeriesNumber').text :
+									if record.find('RecordID').text.startswith(cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text):
 										file_element.set('id', record.find('RecordID').text)
 									else:
-										file_element.set('id', cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text)
+										file_element.set('id', cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text)
 								else:
 									file_element.set('id', record.find('RecordID').text)
 						else:
 							unitid_element = ET.Element('unitid')
 							did_element.append(unitid_element)
-							if input_data.find('CollectionSheet/IDModel/CollectionSeparator').text and input_data.find('CollectionSheet/IDModel/SeriesSeparator').text:
-								if record.find('RecordID').text.startswith(collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text + cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text):
+							if input_data.find('CollectionSheet/IDModel/SeriesSeparator').text and input_data.find('CollectionSheet/IDModel/CollectionSeparator').text and cmpnt_info.find('SeriesNumber').text:
+								if record.find('RecordID').text.startswith(collectionID + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text + cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text):
 									unitid_element.text = record.find('RecordID').text	
 								else:
-									unitid_element.text = collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text + cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text + record.find('RecordID').text
+									unitid_element.text = collectionID + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text + cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text + record.find('RecordID').text
 							else:
-								if input_data.find('CollectionSheet/IDModel/CollectionSeparator').text:
-									if record.find('RecordID').text.startswith(collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text):
+								if input_data.find('CollectionSheet/IDModel/SeriesSeparator').text and cmpnt_info.find('SeriesNumber').text:
+									if record.find('RecordID').text.startswith(collectionID + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text):
 										unitid_element.text = record.find('RecordID').text	
 									else:
 										unitid_element.text = collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text + record.find('RecordID').text
-								elif input_data.find('CollectionSheet/IDModel/SeriesSeparator').text:
-									if record.find('RecordID').text.startswith(cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text):
+								elif input_data.find('CollectionSheet/IDModel/CollectionSeparator').text and cmpnt_info.find('SeriesNumber').text:
+									if record.find('RecordID').text.startswith(cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text):
 										unitid_element.text = record.find('RecordID').text	
 									else:
-										unitid_element.text = cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text
+										unitid_element.text = cmpnt_info.find('SeriesNumber').text + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text
 								else:
 									unitid_element.text = record.find('RecordID').text	
 				# <unitdate>
@@ -615,7 +617,7 @@ def no_series(c_element, cmpnt_info, version, dsc_root, input_data, old_cmpt, co
 	for record in cmpnt_info:
 		if record.tag == "Record":
 			if record.find('UnitTitle').text or record.find('UnitNumber').text or record.find('Date1').text or record.find('Quantity').text:
-				file_element = c_element
+				file_element = ET.Element(c_element.tag)
 				dsc_root.append(file_element)
 				if cmpnt_info.find('DescriptionLevel').text:
 					if "ask_ualbany" in globals.new_elements:
@@ -676,15 +678,17 @@ def no_series(c_element, cmpnt_info, version, dsc_root, input_data, old_cmpt, co
 					unittitle_element = ET.Element('unittitle')
 					did_element.append(unittitle_element)
 					unittitle_element.text = record.find('UnitTitle').text
-				unitid_element = ET.Element('unitid')
-				if "id" in old_cmpt.attrib:
-					file_element.set('id', collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text + record.find('RecordID').text)
-				else:
-					did_element.append(unitid_element)
-					if record.find('RecordID').text:
-						unitid_element.text = collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text + record.find('RecordID').text
+				if record.find('RecordID').text:
+					if record.find('RecordID').text.startswith(collectionID):
+						uid = record.find('RecordID').text
 					else:
-						unitid_element.text = collectionID + input_data.find('CollectionSheet/IDModel/CollectionSeparator').text + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text 
+						uid = collectionID + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text + record.find('RecordID').text
+					if old_cmpt.find('did/unitid') is None:
+						file_element.set('id', uid)
+					else:
+						unitid_element = ET.Element('unitid')
+						did_element.append(unitid_element)
+						unitid_element.text = uid
 				if version == "ead2002":
 					for date in record:
 						if date.text:

@@ -1,1 +1,11 @@
-﻿
+﻿Spreadsheet to EAD.Traceback (most recent call last):
+  File "C:\Users\gw234478\Dropbox\EAD Machine Project\EADMachine\bin\GUI\panelOne.py", line 34, in run
+    comp_EAD, comp_HTML = SpreadsheettoEAD.SpreadsheettoEAD(self._input_xml, self._template_xml)
+  File "C:\Users\gw234478\Dropbox\EAD Machine Project\EADMachine\bin\SpreadsheettoEAD\SpreadsheettoEAD.py", line 58, in SpreadsheettoEAD
+    eadheader(control_root, input[0])
+  File "C:\Users\gw234478\Dropbox\EAD Machine Project\EADMachine\bin\SpreadsheettoEAD\func\eadheader.py", line 156, in eadheader
+    publicationstmt(eadheader_root, CSheet)
+  File "C:\Users\gw234478\Dropbox\EAD Machine Project\EADMachine\bin\SpreadsheettoEAD\func\publicationstmt.py", line 72, in publicationstmt
+    if CSheet.find('PublicationDate').text:
+AttributeError: 'NoneType' object has no attribute 'text'
+######################################################################################

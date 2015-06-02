@@ -53,7 +53,25 @@ def eadheader(eadheader_root, CSheet):
 	template_titleproper = eadheader_root.find('filedesc/titlestmt/titleproper')
 	if CSheet.find('CollectionName').text:
 		if "ask_ualbany" in globals.new_elements:
-			ualbany_titleproper = CSheet.find('CollectionName').text.upper() + " (" + CSheet.find('CollectionID').text.upper() + ")"
+			if "nam_" in CSheet.find('CollectionID').text:
+				CID_only = CSheet.find('CollectionID').text.split('_')[1]
+			else:
+				CID_only = CSheet.find('CollectionID').text
+			if CID_only.lower().startswith('ua'):
+				Coll_number = CID_only.replace('ua', '')
+				display_CID = "UA-" +  Coll_number
+			elif CID_only.lower().startswith('apap'):
+				Coll_number = CID_only.replace('apap', '')
+				display_CID = "APAP-" +  Coll_number
+			elif CID_only.lower().startswith('mss'):
+				Coll_number = CID_only.replace('mss', '')
+				display_CID = "MSS-" +  Coll_number
+			elif CID_only.lower().startswith('ger'):
+				Coll_number = CID_only.replace('ger', '')
+				display_CID = "GER-" +  Coll_number
+			else:
+				display_CID = CID_only
+			ualbany_titleproper = CSheet.find('CollectionName').text.upper() + " (" + display_CID.upper() + "),"
 			template_titleproper.text = ualbany_titleproper
 		else:
 			template_titleproper.text = CSheet.find('CollectionName').text

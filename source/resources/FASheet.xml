@@ -5,9 +5,9 @@
 		<Subtitle/>
 		<CollectionID/>
 		<IDModel>
-			<CollectionSeparator/>
-			<LevelsSeparator/>
-			<SeriesSeparator/>
+			<CollectionSeparator>_</CollectionSeparator>
+			<LevelsSeparator>.</LevelsSeparator>
+			<SeriesSeparator>-</SeriesSeparator>
 		</IDModel>
 		<URL/>
 		<OtherID>

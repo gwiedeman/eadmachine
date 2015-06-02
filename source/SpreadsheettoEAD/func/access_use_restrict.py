@@ -144,7 +144,7 @@ def access_use_lower(arch_root, input_element, tag_name, collectionID, series_se
 								# @id in <c01>, <c02>, etc.:
 								for match in arch_root.find('dsc').iter():
 									if match.tag.startswith('c0') or match.tag.startswith('c1'):
-										if match.attrib['id'] == collectionID + restriction.find('UnitID').text:
+										if match.attrib['id'] == restriction.find('UnitID').text:
 											if match.find(tag_name) is None:
 												restrict_element = ET.Element(tag_name)
 												append_index = match.getchildren().index(match.find('did')) + 1
@@ -160,7 +160,7 @@ def access_use_lower(arch_root, input_element, tag_name, collectionID, series_se
 								# @id in <c>:
 								for match in arch_root.find('dsc').iter('c'):
 									if "id" in match.attrib:
-										if match.attrib['id'] == collectionID + restriction.find('UnitID').text or match.attrib['id'] == restriction.find('UnitID').text:
+										if match.attrib['id'] == restriction.find('UnitID').text or match.attrib['id'] == restriction.find('UnitID').text:
 											if match.find(tag_name) is None:
 												restrict_element = ET.Element(tag_name)
 												append_index = match.getchildren().index(match.find('did')) + 1
@@ -181,7 +181,7 @@ def access_use_lower(arch_root, input_element, tag_name, collectionID, series_se
 											pass
 										else:
 											if match.find('did/unitid').text:
-												if match.find('did/unitid').text == collectionID + restriction.find('UnitID').text:
+												if match.find('did/unitid').text == restriction.find('UnitID').text:
 													if match.find(tag_name) is None:
 														restrict_element = ET.Element(tag_name)
 														append_index = match.getchildren().index(match.find('did')) + 1
@@ -203,7 +203,7 @@ def access_use_lower(arch_root, input_element, tag_name, collectionID, series_se
 											pass
 										else:
 											if match.find('did/unitid').text:
-												if match.find('did/unitid').text == collectionID + restriction.find('UnitID').text:
+												if match.find('did/unitid').text == restriction.find('UnitID').text:
 													if match.find(tag_name) is None:
 														restrict_element = ET.Element(tag_name)
 														append_index = match.getchildren().index(match.find('did')) + 1

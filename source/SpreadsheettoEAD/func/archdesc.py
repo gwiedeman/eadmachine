@@ -173,7 +173,9 @@ def archdesc(arch_root, CSheet, version, input_data):
 	archdescsimple(arch_root, "arrangement", CSheet.find('CollectionArrangement'), CSheet.find('CollectionArrangement/Arrangement'), add)
 	if arrange_list == True:
 		if CSheet.find('CollectionMap/Component/ComponentName').text:
-			if CSheet.find('CollectionMap/Component/ComponentName').text.lower() != "no series" or CSheet.find('CollectionMap/Component/ComponentName').text.lower() != "noseries":
+			if CSheet.find('CollectionMap/Component/ComponentName').text.lower() == "no series" or CSheet.find('CollectionMap/Component/ComponentName').text.lower() == "noseries":
+				pass
+			else:
 				list_element = ET.Element('list')
 				if arch_root.find('arrangement') is None:
 					arrangement_element = ET.Element('arrangement')

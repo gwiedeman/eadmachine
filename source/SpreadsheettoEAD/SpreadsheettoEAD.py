@@ -92,16 +92,13 @@ def SpreadsheettoEAD(input_xml, template_xml):
 				bold.tag = "b"
 				del bold.attrib['render']
 			rough_html = ET.tostring(html_element)
+			parser = lxml.XMLParser(remove_blank_text=True)
+			to_lxml_html = lxml.fromstring(rough_html, parser)
 			#adds doctype
-			dom_html = minidom.parseString(rough_html)
-			#html_pi = dom_html.createProcessingInstruction('DOCTYPE', 'html')
-			#html_root = dom_html.firstChild
-			#dom_html.insertBefore(html_pi, html_root)
-			pretty_html = dom_html.toxml()
+			pretty_html = lxml.tostring(to_lxml_html, pretty_print=True, doctype="<!DOCTYPE html>")
+						
 			html_output = prettyprint(pretty_html)
-			#html_output_element = ET.fromstring(pretty_html)
-			#html_output = ET.ElementTree(html_output_element)
-			#html_output.write(input.find('CollectionSheet/CollectionID').text + '.html', method='xml')
+
 		else:
 			error("HTML MODULE FAILED: Cannot find html_default.html in the templates folder, EADMachine will not be able to create an html file for this collection", False)
 		
@@ -116,13 +113,16 @@ def SpreadsheettoEAD(input_xml, template_xml):
 				else:
 					did.remove(did.find('unitid'))
 	
-	if template.iter('c02') is None:
+	test_string = ET.tostring(template)
+	if "<c02" in test_string:
+		no_series = False
+	else:
 		if template.find('archdesc/dsc/c') is None:
 			no_series = True
 		else:
 			series_count = 0
 			for series in template.find('archdesc/dsc'):
-				if series.find('c') is None:
+				if series.find('c') is None and series.find('c02') is None:
 					pass
 				else:
 					series_count = series_count + 1
@@ -130,8 +130,7 @@ def SpreadsheettoEAD(input_xml, template_xml):
 				no_series = False
 			else:
 				no_series = True
-	else:
-		no_series = False
+		
 	
 	# Sets Processing Instructions and pretty prints the XML
 	rough_string = ET.tostring(template)
