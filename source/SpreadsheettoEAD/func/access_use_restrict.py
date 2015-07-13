@@ -27,34 +27,42 @@ def access_use_restrict(arch_root, Input, element_name, name, add):
 						p_element = ET.Element('p')
 						arch_root.find(element_name).append(p_element)
 						p_element.text = statement.text
-				if Input.find('SpecificMaterialRestrictions/SpecificRestriction/Material') is None:
-					pass
-				else:
-					if Input.find('SpecificMaterialRestrictions/SpecificRestriction/Material').text:
-						list_element = ET. Element('list')
-						arch_root.find(element_name).append(list_element)
-						list_element.set('listtype', 'deflist')
-						listhead_element = ET.Element('listhead')
-						list_element.append(listhead_element)
-						head01_element = ET.Element('head01')
-						listhead_element.append(head01_element)
-						head02_element = ET.Element('head02')
-						listhead_element.append(head02_element)
-						head01_element.text = "Material"
-						head02_element.text = name + " Restrictions"
-						for specific_restr in Input.find('SpecificMaterialRestrictions'):
-							defitem_element = ET.Element('defitem')
-							list_element.append(defitem_element)
-							if  specific_restr.find('UnitID').text:
-								defitem_element.set('id', specific_restr.find('UnitID').text)
-							label_element = ET.Element('label')
-							item_element = ET.Element('item')
-							defitem_element.append(label_element)
-							defitem_element.append(item_element)
-							if specific_restr.find('Material').text:
-								label_element.text = specific_restr.find('Material').text
-							if specific_restr.find('Restriction').text:
-								item_element.text = specific_restr.find('Restriction').text
+				restrict_count = 0
+				for spec_restrict in Input.find('SpecificMaterialRestrictions'):
+					if spec_restrict.find('Material') is None or spec_restrict.find('Restriction') is None:
+						pass
+					else:
+						if spec_restrict.find('Material').text or spec_restrict.find('Restriction').text:
+							restrict_count = restrict_count + 1
+				if restrict_count > 0:
+					list_element = ET. Element('list')
+					arch_root.find(element_name).append(list_element)
+					list_element.set('listtype', 'deflist')
+					listhead_element = ET.Element('listhead')
+					list_element.append(listhead_element)
+					head01_element = ET.Element('head01')
+					listhead_element.append(head01_element)
+					head02_element = ET.Element('head02')
+					listhead_element.append(head02_element)
+					head01_element.text = "Material"
+					head02_element.text = name + " Restrictions"
+					for specific_restr in Input.find('SpecificMaterialRestrictions'):
+						if specific_restr.find('Material') is None or specific_restr.find('Restriction') is None:
+							pass
+						else:
+							if specific_restr.find('Material').text and specific_restr.find('Restriction').text:
+								defitem_element = ET.Element('defitem')
+								list_element.append(defitem_element)
+								if  specific_restr.find('UnitID').text:
+									defitem_element.set('id', specific_restr.find('UnitID').text)
+								label_element = ET.Element('label')
+								item_element = ET.Element('item')
+								defitem_element.append(label_element)
+								defitem_element.append(item_element)
+								if specific_restr.find('Material').text:
+									label_element.text = specific_restr.find('Material').text
+								if specific_restr.find('Restriction').text:
+									item_element.text = specific_restr.find('Restriction').text
 		else:
 			old_restrict = arch_root.find(element_name).attrib
 			old_head = arch_root.find(element_name).find('head')
@@ -74,40 +82,48 @@ def access_use_restrict(arch_root, Input, element_name, name, add):
 				pass
 			else:
 				arch_root.find(element_name).attrib = old_restrict
-			if Input.find('SpecificMaterialRestrictions/SpecificRestriction/Material') is None:
-				pass
-			else:
-				if Input.find('SpecificMaterialRestrictions/SpecificRestriction/Material').text:
-					list_element = ET. Element('list')
-					arch_root.find(element_name).append(list_element)
-					list_element.set('listtype', 'deflist')
-					listhead_element = ET.Element('listhead')
-					list_element.append(listhead_element)
-					head01_element = ET.Element('head01')
-					listhead_element.append(head01_element)
-					head02_element = ET.Element('head02')
-					listhead_element.append(head02_element)
-					if old_listhead1 is None:
-						head01_element.text = "Material"
+			restrict_count = 0
+			for spec_restrict in Input.find('SpecificMaterialRestrictions'):
+				if spec_restrict.find('Material') is None or spec_restrict.find('Restriction') is None:
+					pass
+				else:
+					if spec_restrict.find('Material').text or spec_restrict.find('Restriction').text:
+						restrict_count = restrict_count + 1
+			if restrict_count > 0:
+				list_element = ET. Element('list')
+				arch_root.find(element_name).append(list_element)
+				list_element.set('listtype', 'deflist')
+				listhead_element = ET.Element('listhead')
+				list_element.append(listhead_element)
+				head01_element = ET.Element('head01')
+				listhead_element.append(head01_element)
+				head02_element = ET.Element('head02')
+				listhead_element.append(head02_element)
+				if old_listhead1 is None:
+					head01_element.text = "Material"
+				else:
+					head01_element.text = old_listhead1.text
+				if old_listhead2 is None:
+					head02_element.text = name + " Restrictions"
+				else:
+					head02_element.text = old_listhead2.text
+				for specific_restr in Input.find('SpecificMaterialRestrictions'):
+					if specific_restr.find('Material') is None or specific_restr.find('Restriction') is None:
+						pass
 					else:
-						head01_element.text = old_listhead1.text
-					if old_listhead2 is None:
-						head02_element.text = name + " Restrictions"
-					else:
-						head02_element.text = old_listhead2.text
-					for specific_restr in Input.find('SpecificMaterialRestrictions'):
-						defitem_element = ET.Element('defitem')
-						list_element.append(defitem_element)
-						if  specific_restr.find('UnitID').text:
-							defitem_element.set('id', specific_restr.find('UnitID').text)
-						label_element = ET.Element('label')
-						item_element = ET.Element('item')
-						defitem_element.append(label_element)
-						defitem_element.append(item_element)
-						if specific_restr.find('Material').text:
-							label_element.text = specific_restr.find('Material').text
-						if specific_restr.find('Restriction').text:
-							item_element.text = specific_restr.find('Restriction').text
+						if specific_restr.find('Material').text and specific_restr.find('Restriction').text:
+							defitem_element = ET.Element('defitem')
+							list_element.append(defitem_element)
+							if  specific_restr.find('UnitID').text:
+								defitem_element.set('id', specific_restr.find('UnitID').text)
+							label_element = ET.Element('label')
+							item_element = ET.Element('item')
+							defitem_element.append(label_element)
+							defitem_element.append(item_element)
+							if specific_restr.find('Material').text:
+								label_element.text = specific_restr.find('Material').text
+							if specific_restr.find('Restriction').text:
+								item_element.text = specific_restr.find('Restriction').text
 	else:
 		for empty_restrict in arch_root:
 			if empty_restrict.tag == element_name:

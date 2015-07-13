@@ -244,8 +244,16 @@ def archdesc(arch_root, CSheet, version, input_data):
 							title_element.tail = " " + pub.find('Citation').text + ", "
 						if pub.find('Date').text:
 							date_element = ET.Element('date')
-							bibref_element.append(date_element)
-							date_element.text = pub.find('Date').text
+							if version == "ead3":
+								bibref_element.append(date_element)
+								date_element.text = pub.find('Date').text
+							else:
+								if pub.find('Title').text:
+									title_element.append(date_element)
+									date_element.text = pub.find('Date').text
+								else:
+									bibref_element.append(date_element)
+									date_element.text = pub.find('Date').text
 							if pub.find('NormalDate').text:
 								date_element.set("normal", pub.find('NormalDate').text)
 						if pub.find('Reference').text:
@@ -268,8 +276,16 @@ def archdesc(arch_root, CSheet, version, input_data):
 							title_element.tail = " " + man.find('UnitID').text + ", "
 						if man.find('Date').text:
 							date_element = ET.Element('date')
-							archref_element.append(date_element)
-							date_element.text = man.find('Date').text
+							if version == "ead3":
+								archref_element.append(date_element)
+								date_element.text = man.find('Date').text
+							else:
+								if man.find('UnitTitle').text:
+									title_element.append(date_element)
+									date_element.text = man.find('Date').text
+								else:
+									archref_element.append(date_element)
+									date_element.text = man.find('Date').text
 							if man.find('NormalDate').text:
 								date_element.set("normal", man.find('NormalDate').text)
 						if man.find('Reference').text:
@@ -308,8 +324,16 @@ def archdesc(arch_root, CSheet, version, input_data):
 						title_element.tail = " " + pub.find('Citation').text + ", "
 					if pub.find('Date').text:
 						date_element = ET.Element('date')
-						bibref_element.append(date_element)
-						date_element.text = pub.find('Date').text
+						if version == "ead3":
+							bibref_element.append(date_element)
+							date_element.text = pub.find('Date').text
+						else:
+							if pub.find('Title').text:
+								title_element.append(date_element)
+								date_element.text = pub.find('Date').text
+							else:
+								bibref_element.append(date_element)
+								date_element.text = pub.find('Date').text
 						if pub.find('NormalDate').text:
 							date_element.set("normal", pub.find('NormalDate').text)
 					if pub.find('Reference').text:
@@ -332,8 +356,16 @@ def archdesc(arch_root, CSheet, version, input_data):
 						title_element.tail = " " + man.find('UnitID').text + ", "
 					if man.find('Date').text:
 						date_element = ET.Element('date')
-						archref_element.append(date_element)
-						date_element.text = man.find('Date').text
+						if version == "ead3":
+							archref_element.append(date_element)
+							date_element.text = man.find('Date').text
+						else:
+							if man.find('UnitTitle').text:
+								title_element.append(date_element)
+								date_element.text = man.find('Date').text
+							else:
+								archref_element.append(date_element)
+								date_element.text = man.find('Date').text
 						if man.find('NormalDate').text:
 							date_element.set("normal", man.find('NormalDate').text)
 					if man.find('Reference').text:

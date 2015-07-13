@@ -19,6 +19,14 @@ def components(c_root, cmpnt_info, version, arr_head, sc_head, old_physdesc, old
 		unittitle_element = ET.Element('unittitle')
 		did_element.append(unittitle_element)
 		unittitle_element.text = cmpnt_info.find('SeriesName').text
+		if cmpnt_info.find('SeriesLevel').text is None:
+			pass
+		else:
+			if cmpnt_info.find('SeriesLevel').text == "1":
+				series_name = "Series"
+			else:
+				series_name = "Subseries"
+			unittitle_element.set('label', series_name)
 	if cmpnt_info.find('SeriesNumber').text:
 		if input_data.find('CollectionSheet/IDModel/CollectionSeparator').text:
 			if cmpnt_info.find('SeriesNumber').text.startswith(collectionID):
@@ -31,6 +39,12 @@ def components(c_root, cmpnt_info, version, arr_head, sc_head, old_physdesc, old
 			else:
 				if "id" in old_ser.attrib:
 					c_root.set('id', collectionID + input_data.find('CollectionSheet/IDModel/SeriesSeparator').text + cmpnt_info.find('SeriesNumber').text)
+					if old_did.find('unitid') is None:
+						pass
+					else:
+						unitid_element = ET.Element('unitid')
+						did_element.append(unitid_element)
+						unitid_element.text = cmpnt_info.find('SeriesNumber').text
 				else:
 					unitid_element = ET.Element('unitid')
 					did_element.append(unitid_element)
@@ -38,6 +52,12 @@ def components(c_root, cmpnt_info, version, arr_head, sc_head, old_physdesc, old
 		else:
 			if "id" in old_ser.attrib:
 				c_root.set('id', cmpnt_info.find('SeriesNumber').text)
+				if old_did.find('unitid') is None:
+					pass
+				else:
+					unitid_element = ET.Element('unitid')
+					did_element.append(unitid_element)
+					unitid_element.text = cmpnt_info.find('SeriesNumber').text
 			else:
 				unitid_element = ET.Element('unitid')
 				did_element.append(unitid_element)
